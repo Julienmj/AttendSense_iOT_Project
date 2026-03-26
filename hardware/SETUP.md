@@ -1,37 +1,165 @@
-# Hardware Setup Guide
+# Hardware Setup Guide - Arduino Nano 33 BLE
 
 ## Required Components
 
 ### Essential Hardware
-- **Arduino Uno** (or compatible board)
-- **HC-05 Bluetooth Module**
-- **Jumper Wires**
+- **Arduino Nano 33 BLE** (you have this!)
+- **HC-05 Bluetooth Module** (for scanning other devices)
+- **Jumper Wires** (male-to-female and male-to-male)
 - **USB Cable** (for Arduino programming)
 - **Breadboard** (optional, for prototyping)
+- **LED + 220Ω Resistor** (for status indicator)
 
-### Tools
-- **Arduino IDE** (installed on computer)
-- **USB to Serial Adapter** (if not using Arduino's built-in USB)
+### Tools & Software
+- **Arduino IDE** (already installed ✓)
+- **Arduino Nano 33 BLE Board Support** (install in IDE)
+- **Serial Monitor** (built into Arduino IDE)
 
-## Wiring Diagram
+## Why Arduino Nano 33 BLE?
 
+The Arduino Nano 33 BLE has built-in Bluetooth Low Energy, which is perfect for:
+- Scanning nearby Bluetooth devices
+- Low power consumption
+- Better range than HC-05 alone
+- No external Bluetooth module needed for scanning
+
+## Option 1: Using Built-in BLE (Recommended)
+The Nano 33 BLE can scan for devices directly without HC-05 module.
+
+## Option 2: Using HC-05 Module
+If you want to use HC-05 for compatibility with existing setup:
+
+### Wiring Diagram (Nano 33 BLE + HC-05)
 ```
-Arduino Uno    →    HC-05 Bluetooth Module
+Arduino Nano 33 BLE  →  HC-05 Bluetooth Module
 ─────────────────────────────────────────────
-5V              →    VCC
-GND             →    GND
-Pin 10 (RX)     →    TXD
-Pin 11 (TX)     →    RXD
+3.3V           →      VCC
+GND            →      GND
+D2 (RX)        →      TXD
+D3 (TX)        →      RXD
 ```
 
 ### Detailed Connections
 
 | Arduino Pin | HC-05 Pin | Description |
 |-------------|-----------|-------------|
-| 5V          | VCC       | Power supply (3.6V-6V) |
+| 3.3V        | VCC       | Power supply (3.3V for Nano 33 BLE) |
 | GND         | GND       | Common ground |
-| D10         | TXD       | Arduino receives data |
-| D11         | RXD       | Arduino sends data |
+| D2          | TXD       | Arduino receives data |
+| D3          | RXD       | Arduino sends data |
+
+### Status LED (Optional)
+| Arduino Pin | LED | Resistor | Description |
+|-------------|-----|----------|-------------|
+| D13         | +   | 220Ω     | Status indicator |
+| GND         | -   | -        | Ground |
+
+## Step-by-Step Beginner Guide
+
+### Step 1: Install Arduino Nano 33 BLE Support
+1. Open Arduino IDE
+2. Go to **Tools** → **Board** → **Boards Manager**
+3. Search for "**Arduino Mbed OS Nano Boards**"
+4. Click **Install**
+5. Select **Tools** → **Board** → **Arduino Mbed OS Nano Boards** → **Arduino Nano 33 BLE**
+
+### Step 2: Connect Your Hardware
+
+#### For Built-in BLE (Recommended):
+1. Connect Arduino Nano 33 BLE to USB
+2. (Optional) Connect LED to D13 and GND with 220Ω resistor
+
+#### For HC-05 Module:
+1. Place HC-05 on breadboard
+2. Connect 3.3V from Nano to VCC on HC-05
+3. Connect GND from Nano to GND on HC-05
+4. Connect D2 (Nano) to TXD on HC-05
+5. Connect D3 (Nano) to RXD on HC-05
+6. Connect USB cable to Nano
+
+### Step 3: Upload the Code
+1. Open Arduino IDE
+2. Copy the code from `arduino_sketch.ino`
+3. Select correct port: **Tools** → **Port** → (your Nano 33 BLE port)
+4. Click **Upload** button (→)
+5. Wait for "Done uploading" message
+
+### Step 4: Test the Connection
+1. Open **Serial Monitor** (magnifying glass icon)
+2. Set baud rate to **9600**
+3. You should see "AttendSense Scanner Ready"
+4. The system will start scanning for devices
+
+### Step 5: Link with AttendSense Project
+
+#### Method 1: Direct Serial Connection (Easiest)
+1. Keep Arduino connected to your computer via USB
+2. The Arduino will send detected devices via Serial
+3. The PHP backend will read from serial port
+4. No additional configuration needed
+
+#### Method 2: WiFi Bridge (Advanced)
+1. Use Nano 33 BLE's WiFi capabilities
+2. Send data to your backend via HTTP
+3. Configure WiFi credentials in the Arduino code
+
+### Step 6: Test with Real Devices
+1. Enable Bluetooth on your phone/laptop
+2. Make sure devices are discoverable
+3. Run the Arduino scanner
+4. Check Serial Monitor for detected MAC addresses
+5. Verify MAC addresses appear in your AttendSense web interface
+
+## Troubleshooting for Beginners
+
+### Common Issues & Solutions
+
+**❌ "Port not found"**
+- Check USB cable connection
+- Install Arduino drivers
+- Try different USB port
+
+**❌ "Upload failed"**
+- Press reset button on Nano before uploading
+- Check correct board selection
+- Verify port selection
+
+**❌ "No devices detected"**
+- Ensure target devices have Bluetooth enabled
+- Check if devices are discoverable
+- Verify wiring (if using HC-05)
+- Move closer to devices (within 10 meters)
+
+**❌ "Garbage text in Serial Monitor"**
+- Check baud rate (must be 9600)
+- Verify RX/TX connections
+- Check for loose wires
+
+**❌ "HC-05 not powering on"**
+- Use 3.3V instead of 5V for Nano 33 BLE
+- Check ground connection
+- Verify HC-05 is not damaged
+
+## Next Steps After Setup
+
+1. **Add Test Students**: In AttendSense web interface, create students with your device MAC addresses
+2. **Create Session**: Start an attendance session
+3. **Start Scanning**: Begin Bluetooth scanning
+4. **Verify Detection**: Check if your devices appear as "present"
+
+## Safety Tips
+
+- Double-check all connections before powering on
+- Don't connect 5V to HC-05 (use 3.3V)
+- Keep devices within reasonable range
+- Handle Arduino carefully (static sensitive)
+
+## Need Help?
+
+- Check Arduino IDE console for error messages
+- Verify each connection step-by-step
+- Test with known working devices first
+- Check the Serial Monitor output for debugging info
 
 ## Setup Instructions
 
