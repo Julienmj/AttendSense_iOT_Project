@@ -19,11 +19,7 @@
 
 An IoT-based attendance tracking system using Bluetooth (NRF Connect) to automatically detect student presence. Built with Vue.js 3, PHP, SQLite, and Arduino Nano 33 BLE.
 
-## 🌐 Live Demo
 
-**[https://attendsense.netlify.app](https://attendsense.netlify.app)**
-
-> ⚠️ **Note:** This is a frontend interface demonstration only. The PHP backend is not deployed, so API calls will not return real data. To run the full system locally, follow the setup guide below.
 
 ## 🗂 Project Structure
 
