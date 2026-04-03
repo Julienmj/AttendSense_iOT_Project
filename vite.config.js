@@ -11,5 +11,9 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, '/attendsense/backend/api'),
       }
     }
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
   }
 })

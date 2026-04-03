@@ -28,8 +28,18 @@ define('HASH_ALGO', 'PASSWORD_DEFAULT');
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// CORS Headers
-header('Access-Control-Allow-Origin: ' . CORS_ORIGIN);
+// CORS Headers - allow Netlify frontend and local dev
+$allowedOrigins = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    getenv('FRONTEND_URL') ?: 'https://attendsense.netlify.app'
+];
+$origin = $_SERVER['HTTP_ORIGIN'] ?? '';
+if (in_array($origin, $allowedOrigins) || str_ends_with($origin, '.netlify.app')) {
+    header('Access-Control-Allow-Origin: ' . $origin);
+} else {
+    header('Access-Control-Allow-Origin: ' . $allowedOrigins[0]);
+}
 header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 

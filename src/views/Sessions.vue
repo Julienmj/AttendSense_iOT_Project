@@ -106,10 +106,7 @@
       </div>
 
       <div class="flex gap-3">
-        <button @click="triggerSimulation"
-          class="px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary-dark transition-colors text-sm">
-          Simulate Detection
-        </button>
+
         <button @click="endSession(activeSession.id)"
           class="px-4 py-2 bg-danger text-white rounded-lg font-medium hover:bg-red-600 transition-colors text-sm">
           End Session
@@ -191,7 +188,7 @@
 <script setup>
 import { ref, reactive, computed, onMounted, onUnmounted } from 'vue'
 import { useAttendanceStore } from '../stores/attendance.js'
-import { sessionsAPI, arduinoService } from '../services/api.js'
+import { sessionsAPI } from '../services/api.js'
 
 const store = useAttendanceStore()
 const loading = ref(false)
@@ -271,12 +268,7 @@ async function refreshAttendance(id) {
 
 async function triggerSimulation() {
   if (!activeSession.value) return
-  try {
-    await arduinoService.simulateDetection(activeSession.value.id)
-    await refreshAttendance(activeSession.value.id)
-  } catch (e) {
-    showMsg(e.message, 'error')
-  }
+  showMsg('Use the Arduino bridge to detect devices automatically.', 'error')
 }
 
 async function endSession(id) {
